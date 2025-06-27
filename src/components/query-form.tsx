@@ -5,7 +5,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getConstitutionalInfo } from '@/app/actions';
-import { formSchema, type FormSchema } from '@/lib/schema';
+import { formSchema, type FormSchema, type ConstitutionalInfo } from '@/lib/schema';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,15 +16,9 @@ import { ResultDisplay, LoadingSkeleton } from '@/components/result-display';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
-type AiResult = {
-  summary: string;
-  punishments: string;
-  legalRecourse: string;
-};
-
 export function QueryForm() {
   const [isPending, startTransition] = useTransition();
-  const [result, setResult] = useState<AiResult | null>(null);
+  const [result, setResult] = useState<ConstitutionalInfo | null>(null);
   const { toast } = useToast();
 
   const form = useForm<FormSchema>({

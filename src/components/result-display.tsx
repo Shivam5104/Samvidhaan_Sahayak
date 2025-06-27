@@ -1,15 +1,11 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookText, Gavel, ShieldCheck } from 'lucide-react';
+import { BookText, Gavel, Landmark, ShieldCheck } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import type { ConstitutionalInfo } from '@/lib/schema';
 
-type AiResult = {
-  summary: string;
-  punishments: string;
-  legalRecourse: string;
-};
-
-export function ResultDisplay({ summary, punishments, legalRecourse }: AiResult) {
+export function ResultDisplay({ summary, punishments, legalRecourse, caseStudies }: ConstitutionalInfo) {
   const formatText = (text: string) => {
     return text.split('\n').filter(p => p.trim() !== '').map((paragraph, index) => (
       <p key={index} className="mb-4 last:mb-0">
@@ -55,6 +51,36 @@ export function ResultDisplay({ summary, punishments, legalRecourse }: AiResult)
           {formatText(legalRecourse)}
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-primary">
+            <Landmark className="h-6 w-6" />
+            Relevant Case Studies
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {caseStudies && caseStudies.length > 0 ? (
+            <Accordion type="single" collapsible className="w-full">
+              {caseStudies.map((study, index) => (
+                <AccordionItem value={`item-${index}`} key={index}>
+                  <AccordionTrigger>
+                    <div className="text-left flex-grow">
+                      <p className="font-semibold text-card-foreground">{study.caseName}</p>
+                      <p className="text-sm text-muted-foreground mt-1">Judgment Year: {study.judgmentYear}</p>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed">
+                    {formatText(study.summary)}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          ) : (
+            <p className="text-muted-foreground">No specific case studies were found for your query.</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -98,6 +124,19 @@ export const LoadingSkeleton = () => (
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-[70%]" />
+      </CardContent>
+    </Card>
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-3">
+          <Skeleton className="h-7 w-7 rounded-full" />
+          <Skeleton className="h-7 w-[240px]" />
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-[95%]" />
+        <Skeleton className="h-4 w-full" />
       </CardContent>
     </Card>
   </div>

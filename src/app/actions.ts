@@ -3,15 +3,20 @@
 import { articleSummary } from '@/ai/flows/article-summary';
 import { explainViolationPunishments } from '@/ai/flows/violation-punishments';
 import { legalRecourseExplanation } from '@/ai/flows/legal-recourse-explanation';
+import { findCaseStudies } from '@/ai/flows/case-study';
 import { formSchema, type FormSchema } from '@/lib/schema';
 
 export async function getConstitutionalInfo(data: FormSchema) {
   try {
     const validatedData = formSchema.parse(data);
 
-    const [summaryResult, punishmentsResult] = await Promise.all([
+    const [summaryResult, punishmentsResult, caseStudiesResult] = await Promise.all([
       articleSummary({ articleNumber: validatedData.articleNumber }),
       explainViolationPunishments({ articleNumber: validatedData.articleNumber }),
+      findCaseStudies({
+        articleNumber: validatedData.articleNumber,
+        userExperience: validatedData.userExperience,
+      }),
     ]);
 
     const legalRecourseResult = await legalRecourseExplanation({
@@ -26,6 +31,7 @@ export async function getConstitutionalInfo(data: FormSchema) {
         summary: summaryResult.summary,
         punishments: punishmentsResult.punishments,
         legalRecourse: legalRecourseResult.legalRecourseExplanation,
+        caseStudies: caseStudiesResult.caseStudies,
       }
     };
   } catch (error) {
