@@ -84,7 +84,7 @@ export default function LeadersPage() {
                 alt={`Portrait of ${leader.name}`}
                 width={120}
                 height={120}
-                className="mb-4"
+                className="mb-4 border-0"
                 data-ai-hint="portrait man"
               />
               <CardTitle className="text-xl text-primary">{leader.name}</CardTitle>
