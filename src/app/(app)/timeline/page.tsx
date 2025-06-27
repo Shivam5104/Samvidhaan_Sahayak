@@ -65,6 +65,21 @@ const timelineData = [
         title: '103rd Amendment Act, 2019',
         description: `This amendment introduced a 10% reservation for Economically Weaker Sections (EWS) in educational institutions and for appointments in public employment. This reservation is for individuals who are not covered by any of the existing reservation schemes for SCs, STs, and OBCs.`,
     },
+    {
+        year: '2019',
+        title: 'Abrogation of Article 370',
+        description: 'The special status of Jammu and Kashmir under Article 370 of the Constitution was revoked. This led to the reorganization of the state into two union territories: Jammu and Kashmir, and Ladakh. The Supreme Court upheld the constitutional validity of this move in December 2023.',
+    },
+    {
+        year: '2021',
+        title: '105th Amendment Act, 2021',
+        description: 'This amendment restored the power of state governments to identify and specify Socially and Educationally Backward Classes (SEBCs). It clarified that states can maintain their own lists of SEBCs, separate from the central list, for the purpose of reservations.',
+    },
+    {
+        year: '2023',
+        title: '106th Amendment Act, 2023 (Nari Shakti Vandan Adhiniyam)',
+        description: 'This historic amendment provides for the reservation of one-third of all seats for women in the Lok Sabha and in all state legislative assemblies. The implementation of this reservation is contingent upon the completion of a new census and a subsequent delimitation exercise.',
+    },
 ];
 
 export default function TimelinePage() {
