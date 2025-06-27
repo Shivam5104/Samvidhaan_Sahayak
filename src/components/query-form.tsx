@@ -28,7 +28,6 @@ export function QueryForm() {
       age: undefined,
       phone: '',
       profession: '',
-      articleNumber: '',
       userExperience: '',
     },
   });
@@ -56,7 +55,7 @@ export function QueryForm() {
           <CardHeader>
             <CardTitle>Your Details & Query</CardTitle>
             <CardDescription>
-              Provide your details and query about the Indian Constitution.
+              Provide your details and describe your situation.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -118,19 +117,6 @@ export function QueryForm() {
                     )}
                   />
                 </div>
-                 <FormField
-                    control={form.control}
-                    name="articleNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Constitution Article Number</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. 15" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                 <FormField
                   control={form.control}
                   name="userExperience"

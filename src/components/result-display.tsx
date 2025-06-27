@@ -1,11 +1,11 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookText, Gavel, Landmark, ShieldCheck } from 'lucide-react';
+import { BookText, Gavel, Landmark, ShieldCheck, FileQuestion } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import type { ConstitutionalInfo } from '@/lib/schema';
 
-export function ResultDisplay({ summary, punishments, legalRecourse, caseStudies }: ConstitutionalInfo) {
+export function ResultDisplay({ identifiedArticle, summary, punishments, legalRecourse, caseStudies }: ConstitutionalInfo) {
   const formatText = (text: string) => {
     return text.split('\n').filter(p => p.trim() !== '').map((paragraph, index) => (
       <p key={index} className="mb-4 last:mb-0">
@@ -16,6 +16,18 @@ export function ResultDisplay({ summary, punishments, legalRecourse, caseStudies
     
   return (
     <div className="space-y-6 animate-in fade-in-50 duration-500">
+       <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-primary">
+            <FileQuestion className="h-6 w-6" />
+            Identified: Article {identifiedArticle.articleNumber}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-muted-foreground leading-relaxed">
+          {formatText(identifiedArticle.reasoning)}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-primary">
@@ -87,6 +99,18 @@ export function ResultDisplay({ summary, punishments, legalRecourse, caseStudies
 
 export const LoadingSkeleton = () => (
   <div className="space-y-6">
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-3">
+          <Skeleton className="h-7 w-7 rounded-full" />
+          <Skeleton className="h-7 w-[200px]" />
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-[80%]" />
+      </CardContent>
+    </Card>
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-3">

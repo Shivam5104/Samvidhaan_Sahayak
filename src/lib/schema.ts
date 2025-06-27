@@ -6,7 +6,6 @@ export const formSchema = z.object({
   age: z.coerce.number().min(1, { message: 'Please enter a valid age.' }).max(120),
   phone: z.string().optional(),
   profession: z.string().optional(),
-  articleNumber: z.string().min(1, { message: 'Article number is required.' }),
   userExperience: z.string().min(20, { message: 'Description must be at least 20 characters.' }),
 });
 
@@ -34,8 +33,15 @@ export const CaseStudyOutputSchema = z.object({
 });
 export type CaseStudyOutput = z.infer<typeof CaseStudyOutputSchema>;
 
+// Schema for the identified article data
+export const IdentifiedArticleSchema = z.object({
+    articleNumber: z.string(),
+    reasoning: z.string(),
+});
+
 // Schema for the combined AI result data structure
 export const ConstitutionalInfoSchema = z.object({
+  identifiedArticle: IdentifiedArticleSchema,
   summary: z.string(),
   punishments: z.string(),
   legalRecourse: z.string(),
