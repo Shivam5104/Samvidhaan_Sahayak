@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Scale, BookMarked, MessageSquareQuestion } from 'lucide-react';
+import { Scale, BookMarked, MessageSquareQuote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -35,7 +35,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={pathname === '/query'}>
                 <Link href="/query">
-                  <MessageSquareQuestion />
+                  <MessageSquareQuote />
                   Legal Query
                 </Link>
               </SidebarMenuButton>
