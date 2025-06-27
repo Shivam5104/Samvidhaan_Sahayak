@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Scale, BookMarked, MessageSquareQuote } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,9 +14,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-2 p-2">
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <SidebarTrigger />
-            </Button>
+            <SidebarTrigger className="md:hidden" />
             <Scale className="h-8 w-8 text-primary" />
             <h1 className="text-xl font-semibold">Samvidhaan Sahayak</h1>
           </div>
