@@ -89,7 +89,7 @@ export function QueryForm() {
                       <FormItem>
                         <FormLabel>Age</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g. 35" {...field} />
+                          <Input type="number" placeholder="e.g. 35" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
