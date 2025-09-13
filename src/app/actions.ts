@@ -5,6 +5,7 @@ import { explainViolationPunishments } from '@/ai/flows/violation-punishments';
 import { legalRecourseExplanation } from '@/ai/flows/legal-recourse-explanation';
 import { findCaseStudies } from '@/ai/flows/case-study';
 import { identifyArticle } from '@/ai/flows/identify-article';
+import { compareArticles, type CompareArticlesInput } from '@/ai/flows/compare-articles';
 import { formSchema, type FormSchema } from '@/lib/schema';
 
 export async function getConstitutionalInfo(data: FormSchema) {
@@ -52,6 +53,22 @@ export async function getConstitutionalInfo(data: FormSchema) {
     return {
       success: false,
       error: "An error occurred while analyzing your situation. Please try again."
+    };
+  }
+}
+
+export async function compareArticlesAction(data: CompareArticlesInput) {
+  try {
+    const result = await compareArticles(data);
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (error) {
+    console.error("AI flow error:", error);
+    return {
+      success: false,
+      error: "An error occurred while comparing the articles. Please try again.",
     };
   }
 }

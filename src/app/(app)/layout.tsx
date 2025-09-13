@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, SidebarRail } from '@/components/ui/sidebar';
-import { Scale, BookMarked, MessageSquareQuote, Users } from 'lucide-react';
+import { Scale, BookMarked, MessageSquareQuote, Users, GitCompareArrows } from 'lucide-react';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -42,6 +42,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Link href="/query">
                   <MessageSquareQuote />
                   Legal Query
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === '/compare'}>
+                <Link href="/compare">
+                  <GitCompareArrows />
+                  Compare Articles
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

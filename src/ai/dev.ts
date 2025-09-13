@@ -6,3 +6,4 @@ import '@/ai/flows/legal-recourse-explanation.ts';
 import '@/ai/flows/violation-punishments.ts';
 import '@/ai/flows/article-summary.ts';
 import '@/ai/flows/case-study.ts';
+import '@/ai/flows/compare-articles.ts';
