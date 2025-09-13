@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, SidebarRail } from '@/components/ui/sidebar';
-import { Scale, BookMarked, MessageSquareQuote, Users, GitCompareArrows } from 'lucide-react';
+import { Scale, BookMarked, MessageSquareQuote, Users, GitCompareArrows, ScrollText } from 'lucide-react';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -26,6 +26,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Link href="/timeline">
                   <BookMarked />
                   Timeline of Constitution
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+             <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === '/preamble'}>
+                <Link href="/preamble">
+                  <ScrollText />
+                  Preamble Explorer
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

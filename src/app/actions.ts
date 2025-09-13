@@ -5,7 +5,9 @@ import { explainViolationPunishments } from '@/ai/flows/violation-punishments';
 import { legalRecourseExplanation } from '@/ai/flows/legal-recourse-explanation';
 import { findCaseStudies } from '@/ai/flows/case-study';
 import { identifyArticle } from '@/ai/flows/identify-article';
-import { compareArticles, type CompareArticlesInput } from '@/ai/flows/compare-articles';
+import { compareArticles } from '@/ai/flows/compare-articles';
+import type { CompareArticlesInput } from '@/ai/flows/compare-articles';
+import { explainPreambleKeyword } from '@/ai/flows/explain-preamble-keyword';
 import { formSchema, type FormSchema } from '@/lib/schema';
 import { z } from 'zod';
 
@@ -81,6 +83,30 @@ export async function compareArticlesAction(data: CompareArticlesInput) {
     return {
       success: false,
       error: "An error occurred while comparing the articles. Please try again.",
+    };
+  }
+}
+
+const explainPreambleKeywordActionSchema = z.string().min(1);
+export async function explainPreambleKeywordAction(keyword: string) {
+  try {
+    const validatedKeyword = explainPreambleKeywordActionSchema.parse(keyword);
+    const result = await explainPreambleKeyword({ keyword: validatedKeyword });
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (error) {
+    console.error("AI flow error:", error);
+     if (error instanceof z.ZodError) {
+      return {
+        success: false,
+        error: "Invalid keyword provided.",
+      }
+    }
+    return {
+      success: false,
+      error: "An error occurred while fetching the explanation. Please try again.",
     };
   }
 }
