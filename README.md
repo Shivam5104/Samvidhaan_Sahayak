@@ -63,5 +63,6 @@ To run this project locally, follow these steps:
       ```bash
       npm run genkit:watch
       ```
+      Live Link: https://9000-firebase-studio-1751025722861.cluster-ys234awlzbhwoxmkkse6qo3fz6.cloudworkstations.dev
 
 The application will be available at `http://localhost:9002`, and the Genkit developer UI will be at `http://localhost:4000`.
