@@ -7,6 +7,7 @@ import { findCaseStudies } from '@/ai/flows/case-study';
 import { identifyArticle } from '@/ai/flows/identify-article';
 import { compareArticles, type CompareArticlesInput } from '@/ai/flows/compare-articles';
 import { formSchema, type FormSchema } from '@/lib/schema';
+import { z } from 'zod';
 
 export async function getConstitutionalInfo(data: FormSchema) {
   try {
@@ -57,15 +58,26 @@ export async function getConstitutionalInfo(data: FormSchema) {
   }
 }
 
+const compareArticlesActionSchema = z.object({
+  articleOne: z.string(),
+  articleTwo: z.string(),
+})
 export async function compareArticlesAction(data: CompareArticlesInput) {
   try {
-    const result = await compareArticles(data);
+    const validatedData = compareArticlesActionSchema.parse(data);
+    const result = await compareArticles(validatedData);
     return {
       success: true,
       data: result,
     };
   } catch (error) {
     console.error("AI flow error:", error);
+    if (error instanceof z.ZodError) {
+      return {
+        success: false,
+        error: "Invalid input. Please ensure you have entered both article numbers.",
+      }
+    }
     return {
       success: false,
       error: "An error occurred while comparing the articles. Please try again.",

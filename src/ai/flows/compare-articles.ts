@@ -10,7 +10,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const CompareArticlesInputSchema = z.object({
+const CompareArticlesInputSchema = z.object({
   articleOne: z.string().describe('The first article number of the Indian Constitution to compare.'),
   articleTwo: z.string().describe('The second article number of the Indian Constitution to compare.'),
 });

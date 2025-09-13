@@ -23,11 +23,34 @@ type ComparisonFormSchema = z.infer<typeof comparisonFormSchema>;
 
 const ResultDisplay = ({ comparison }: { comparison: string }) => {
   const formatText = (text: string) => {
-    return text.split('\n').filter(p => p.trim() !== '').map((paragraph, index) => (
-      <p key={index} className="mb-4 last:mb-0">
-        {paragraph}
-      </p>
-    ));
+    // Split by headings (e.g., **1. Core Subject Matter:**)
+    const sections = text.split(/(\*\*.*?\*\*)/).filter(Boolean);
+    
+    let formattedElements = [];
+    for (let i = 0; i < sections.length; i += 2) {
+      const heading = sections[i];
+      const content = sections[i + 1] || "";
+      
+      if (heading && content) {
+        formattedElements.push(
+          <div key={i} className="mb-6">
+            <h3 className="text-lg font-semibold text-card-foreground mb-2">{heading.replace(/\*\*/g, '')}</h3>
+            {content.trim().split('\n').filter(p => p.trim() !== '').map((paragraph, pIndex) => (
+              <p key={pIndex} className="mb-3 last:mb-0">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        );
+      } else if(heading) { // Handle case where there might not be content after a heading.
+         formattedElements.push(
+            <p key={i} className="mb-4 last:mb-0">
+                {heading}
+            </p>
+         );
+      }
+    }
+    return formattedElements;
   };
 
   return (
@@ -152,7 +175,7 @@ export default function ComparePage() {
                   </Button>
                 </form>
               </Form>
-            </CardContent>
+            </CcardContent>
           </Card>
         </div>
 
