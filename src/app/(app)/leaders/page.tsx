@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import Image from 'next/image';
 
 const leaders = [
     {
@@ -79,14 +78,6 @@ export default function LeadersPage() {
         {leaders.map((leader, index) => (
           <Card key={index} className="flex flex-col">
             <CardHeader className="items-center text-center">
-              <Image
-                src={leader.imageUrl}
-                alt={`Portrait of ${leader.name}`}
-                width={120}
-                height={120}
-                className="mb-4 border-0"
-                data-ai-hint="portrait man"
-              />
               <CardTitle className="text-xl text-primary">{leader.name}</CardTitle>
             </CardHeader>
             <CardContent className="flex-grow">
