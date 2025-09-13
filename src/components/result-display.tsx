@@ -1,9 +1,83 @@
+'use client';
 
+import * as React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookText, Gavel, Landmark, ShieldCheck, FileQuestion } from 'lucide-react';
+import { BookText, Gavel, Landmark, ShieldCheck, FileQuestion, Volume2, Loader2, StopCircle } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import type { ConstitutionalInfo } from '@/lib/schema';
+import { Button } from '@/components/ui/button';
+import { textToSpeechAction } from '@/app/actions';
+import { useToast } from '@/hooks/use-toast';
+
+const AudioPlayer: React.FC<{ text: string; sectionId: string }> = ({ text, sectionId }) => {
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isPending, startTransition] = React.useTransition();
+  const [audioSrc, setAudioSrc] = React.useState<string | null>(null);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const { toast } = useToast();
+
+  const handlePlay = () => {
+    if (audioSrc) {
+      setIsPlaying(true);
+      audioRef.current?.play();
+      return;
+    }
+
+    startTransition(async () => {
+      const response = await textToSpeechAction(text);
+      if (response.success && response.data?.media) {
+        setAudioSrc(response.data.media);
+        setIsPlaying(true);
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Audio Error',
+          description: response.error || 'Failed to generate audio.',
+        });
+      }
+    });
+  };
+
+  const handleStop = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+  };
+  
+  React.useEffect(() => {
+    if (audioSrc && audioRef.current) {
+      audioRef.current.src = audioSrc;
+      audioRef.current.play().catch(e => console.error("Audio play failed", e));
+      audioRef.current.onended = () => setIsPlaying(false);
+    }
+  }, [audioSrc]);
+
+  return (
+    <>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={isPlaying ? handleStop : handlePlay}
+        disabled={isPending}
+        className="h-7 w-7 text-muted-foreground"
+      >
+        {isPending ? (
+          <Loader2 className="animate-spin" />
+        ) : isPlaying ? (
+          <StopCircle />
+        ) : (
+          <Volume2 />
+        )}
+        <span className="sr-only">{isPlaying ? 'Stop' : 'Listen'}</span>
+      </Button>
+      {audioSrc && <audio ref={audioRef} className="hidden" />}
+    </>
+  );
+};
+
 
 export function ResultDisplay({ identifiedArticle, summary, punishments, legalRecourse, caseStudies }: ConstitutionalInfo) {
   const formatText = (text: string) => {
@@ -30,9 +104,12 @@ export function ResultDisplay({ identifiedArticle, summary, punishments, legalRe
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-primary">
-            <BookText className="h-6 w-6" />
-            Article Summary
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-primary">
+              <BookText className="h-6 w-6" />
+              Article Summary
+            </div>
+            <AudioPlayer text={summary} sectionId="summary" />
           </CardTitle>
         </CardHeader>
         <CardContent className="text-muted-foreground leading-relaxed">
@@ -42,9 +119,12 @@ export function ResultDisplay({ identifiedArticle, summary, punishments, legalRe
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-primary">
-            <Gavel className="h-6 w-6" />
-            Violation Punishments
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-primary">
+                <Gavel className="h-6 w-6" />
+                Violation Punishments
+            </div>
+            <AudioPlayer text={punishments} sectionId="punishments" />
           </CardTitle>
         </CardHeader>
         <CardContent className="text-muted-foreground leading-relaxed">
@@ -54,9 +134,12 @@ export function ResultDisplay({ identifiedArticle, summary, punishments, legalRe
       
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-primary">
-            <ShieldCheck className="h-6 w-6" />
-            Legal Recourse Explanation
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-primary">
+                <ShieldCheck className="h-6 w-6" />
+                Legal Recourse Explanation
+            </div>
+            <AudioPlayer text={legalRecourse} sectionId="legal-recourse" />
           </CardTitle>
         </CardHeader>
         <CardContent className="text-muted-foreground leading-relaxed">
