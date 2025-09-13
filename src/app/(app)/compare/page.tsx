@@ -175,7 +175,7 @@ export default function ComparePage() {
                   </Button>
                 </form>
               </Form>
-            </CcardContent>
+            </CardContent>
           </Card>
         </div>
 
