@@ -98,9 +98,9 @@ export default function TimelinePage() {
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-2 md:-ml-4">
           {timelineData.map((item, index) => (
-            <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+            <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
               <div className="p-1 h-full">
                 <Card className="h-full flex flex-col">
                     <Accordion type="single" collapsible className="w-full flex-grow flex flex-col">
